@@ -36,8 +36,22 @@ body {
   border-radius: 10px;
 }
 
+.fade_in {
+  animation: fadein 200ms ease forwards;
+}
+
 .fade_out {
   animation: fadeout 500ms ease forwards;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    display: block;
+  }
 }
 
 @keyframes fadeout {
@@ -46,5 +60,13 @@ body {
   }
   100% {
     opacity: 0;
+    display: none;
   }
+}
+
+@media (min-width: 480px) {
+  .xs\:text-base { font-size: 1rem; }
+  .xs\:p-5 { padding: 5rem; }
+  .xs\:block { display: block; }
+  .xs\:flex-row { flex-direction: row; }
 }

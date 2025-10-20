@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     element: <PerspectiveDetailPage />,
   },
   {
-   path: "/projeto/:slug",
+   path: "/projetos",
    element: <ProjectsPage />,
   },
   {
