@@ -955,6 +955,25 @@
 					}
 				},
 				"type": "object"
+			},
+			"RequestResetInput": {
+				"properties": {
+					"email": {
+						"type": "string"
+					}
+				},
+				"type": "object"
+			},
+			"ResetPasswordInput": {
+				"properties": {
+					"newPassword": {
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					}
+				},
+				"type": "object"
 			}
 		},
 		"securitySchemes": {
@@ -2330,6 +2349,87 @@
 						"application/json": {
 							"schema": {
 								"$ref": "#/components/schemas/LoginInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/request-password-reset": {
+			"post": {
+				"operationId": "RequestPasswordReset",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "E-mail não encontrado"
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RequestResetInput"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/reset-password": {
+			"post": {
+				"operationId": "ResetPassword",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Authentication"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ResetPasswordInput"
 							}
 						}
 					}
