@@ -165,27 +165,6 @@ const AllProjects: React.FC = () => {
                             </button>
                         ))}
                     </div>
-                    {/* --- Botão Carregar Mais Projetos --- */}
-                    <div className="flex justify-center mt-12 gap-4">
-                        <button
-                            onClick={handleLoadMore}
-                            disabled={!hasMorePages || loading}
-                            className={`px-8 py-3 rounded-md font-bold transition duration-300 ${hasMorePages
-                                ? 'bg-red-600 text-white hover:bg-red-700'
-                                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                                }`}
-                        >
-                            {loading && hasMorePages ? "Carregando..." : hasMorePages ? "Carregar Mais Projetos" : "Todos os Projetos Carregados"}
-                        </button>
-
-                        {/* O segundo botão */}
-                        <button
-                            className="px-8 py-3 rounded-md font-bold transition duration-300 bg-gray-700 text-gray-300 hover:bg-gray-600"
-                        >
-                            Ver Arquivo Completo
-                        </button>
-                    </div>
-
                 </div>
 
                 {/* ... (Seção CTA) ... */}
