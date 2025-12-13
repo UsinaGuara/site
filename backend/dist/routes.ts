@@ -235,6 +235,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "_id": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
+            "slug": {"dataType":"string","required":true},
             "collection_type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["project"]},{"dataType":"enum","enums":["perspective"]}],"required":true},
             "banner": {"dataType":"string"},
             "isCarousel": {"dataType":"boolean"},

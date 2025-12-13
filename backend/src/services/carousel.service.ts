@@ -19,6 +19,7 @@ export class CarouselService {
             .map((p) => ({ // Mapeia para o tipo CarouselResponseType
                 _id: p._id,
                 title: p.title,
+                slug: p.slug,
                 collection_type: "project" as const,
                 banner: p.banner,
                 isCarousel: p.isCarousel,
@@ -32,6 +33,7 @@ export class CarouselService {
             .map((p) => ({ // Mapeia para o tipo CarouselResponseType
                 _id: p._id,
                 title: p.title,
+                slug: p.slug,
                 collection_type: "perspective" as const,
                 banner: p.banner,
                 isCarousel: p.isCarousel,
@@ -66,6 +68,7 @@ export class CarouselService {
             .map((p) => ({
                 _id: p._id,
                 title: p.title,
+                slug: p.slug,
                 collection_type: "project" as const,
                 banner: p.banner,
                 isCarousel: p.isCarousel, // Será false/undefined
@@ -80,6 +83,7 @@ export class CarouselService {
             .map((p) => ({
                 _id: p._id,
                 title: p.title,
+                slug: p.slug,
                 collection_type: "perspective" as const,
                 banner: p.banner,
                 isCarousel: p.isCarousel, // Será false/undefined
@@ -116,6 +120,7 @@ export class CarouselService {
             .map((p) => ({
                 _id: p._id,
                 title: p.title,
+                slug: p.slug,
                 collection_type: "project" as const,
                 banner: p.banner,
                 isCarousel: p.isCarousel, // Valor pode ser true/false/undefined
@@ -128,6 +133,7 @@ export class CarouselService {
             .map((p) => ({
                 _id: p._id,
                 title: p.title,
+                slug: p.slug,
                 collection_type: "perspective" as const,
                 banner: p.banner,
                 isCarousel: p.isCarousel,

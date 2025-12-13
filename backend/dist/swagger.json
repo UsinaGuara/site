@@ -900,6 +900,9 @@
 					"title": {
 						"type": "string"
 					},
+					"slug": {
+						"type": "string"
+					},
 					"collection_type": {
 						"type": "string",
 						"enum": [
@@ -924,6 +927,7 @@
 				"required": [
 					"_id",
 					"title",
+					"slug",
 					"collection_type"
 				],
 				"type": "object",
