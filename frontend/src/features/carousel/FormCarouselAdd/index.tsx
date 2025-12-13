@@ -24,7 +24,6 @@ const InactiveItemRow: React.FC<{
         setTimeout(() => setRowFeedback(''), 4000);
     };
 
-    // CORREÇÃO: Cores de destaque (Roxo para Perspectiva, Laranja para Projeto)
     const typeColor = item.collection_type === 'project' ? 'text-orange-400' : 'text-purple-400';
     const buttonContent = isActivating ? 'Ativando...' : (rowFeedback || 'Adicionar ao Carrossel');
     const feedbackStyle = rowFeedback.includes('Erro') ? 'text-red-400' : 'text-green-400';
@@ -42,9 +41,9 @@ const InactiveItemRow: React.FC<{
                     onClick={activateItem}
                     disabled={isSaving || isActivating}
                     className={`px-4 py-1 rounded text-white text-sm font-bold transition-colors 
-                        ${isSaving || isActivating
+                       ${isSaving || isActivating
                             ? 'bg-gray-600 cursor-not-allowed'
-                            : 'bg-red-700 hover:bg-red-500'} `} 
+                            : 'bg-red-700 hover:bg-red-500'} `}
                 >
                     {buttonContent}
                 </button>
@@ -56,11 +55,17 @@ const InactiveItemRow: React.FC<{
     );
 };
 
-
 export const FormCarouselAdd: React.FC = () => {
     const { state, actions } = useCarouselForm();
     const { isLoading, error, inactiveItems, isSaving } = state;
     const { handleActivateItem } = actions;
+    const [page, setPage] = useState(1);
+    const limit = 5;
+
+    const totalPages = Math.ceil(inactiveItems.length / limit);
+    const start = (page - 1) * limit;
+    const paginatedItems = inactiveItems.slice(start, start + limit);
+
 
     const activateItemWrapper = (item: CarouselResponseType) => {
         return actions.handleActivateItem(item.collection_type as CollectionType, item._id);
@@ -100,7 +105,7 @@ export const FormCarouselAdd: React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {inactiveItems.map(item => (
+                            {paginatedItems.map(item => (
                                 <InactiveItemRow
                                     key={item._id}
                                     item={item}
@@ -110,8 +115,34 @@ export const FormCarouselAdd: React.FC = () => {
                             ))}
                         </tbody>
                     </table>
+
                 </div>
+
             )}
+            {/* PAGINAÇÃO */}
+            <div className="flex justify-between items-center mt-4">
+                <button
+                    disabled={page === 1}
+                    onClick={() => setPage(page - 1)}
+                    className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50"
+                >
+                    Anterior
+                </button>
+
+                <span className="text-gray-400">
+                    Página {page} de {totalPages}
+                </span>
+
+                <button
+                    disabled={page === totalPages || totalPages === 0}
+                    onClick={() => setPage(page + 1)}
+                    className="px-4 py-2 bg-gray-700 text-white rounded disabled:opacity-50"
+                >
+                    Próxima
+                </button>
+            </div>
+
         </div>
+
     );
 };
