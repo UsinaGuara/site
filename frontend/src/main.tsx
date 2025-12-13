@@ -9,6 +9,8 @@ import ProtectedRoute from "./service/ProtectedRoute";
 import ProjectsPage from "./features/projects/ProjectsPage";
 import ProjectPage from "./pages/project";
 import ProjectDetail from "./pages/projectDetail";
+import ForgotPassword from "./pages/login/ForgotPassword";
+import ResetPassword from "./pages/login/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,15 @@ const router = createBrowserRouter([
   { 
     path: "/projetos/:slug/complete",
     element: <ProjectDetail />
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />
+  },
+  
+  {
+    path: "/reset-password",
+    element: <ResetPassword />
   },
   {
     path: "guara-adm",
