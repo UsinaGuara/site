@@ -14,9 +14,22 @@ export type CollectionType = "project" | "perspective";
 export interface CarouselResponseType {
     _id: string;
     title: string;
-    collection_type: CollectionType; // Garante o tipo 'project' | 'perspective'
+    slug: string; 
+    collection_type: CollectionType; 
     banner?: string;
     isCarousel?: boolean;
     orderCarousel?: number;
     extraURL?: string;
+}
+
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface PaginatedCarouselResponse {
+  items: CarouselResponseType[];
+  meta: PaginationMeta;
 }
