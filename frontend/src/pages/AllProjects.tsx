@@ -95,7 +95,7 @@ const AllProjects: React.FC = () => {
             <article className="bg-gray-900 min-h-screen text-gray-200">
                 {/* Banner */}
                 <section className="relative w-full h-[50vh] flex flex-col items-center justify-center text-center bg-cover bg-center text-white"
-                    style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${background})` }}>
+                    style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${background})` }}>
 
                     <h2 className="text-5xl md:text-7xl font-bold mb-3">Nossos Projetos</h2>
                     <p className="max-w-3xl mx-auto text-lg px-4">

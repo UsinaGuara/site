@@ -86,7 +86,7 @@ function Home() {
     <>
       <Header />
       <header className="relative w-full min-h-[82vh] h-full py-5 flex flex-col items-center justify-center text-center bg-cover bg-center text-white"
-        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${background})` }}>
+        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${background})` }}>
         <h2 className="h-max max-w-5xl text-white text-center text-3xl sm:text-4xl lg:text-5xl font-bold px-4 mb-3">Transformando Comunidades Através da Economia Criativa e do Urbanismo</h2>
         <p className="mx-2 h-max max-w-3xl text-white text-center text-base sm:text-lg font-bold px-6 py-2 bg-gray-700/70 rounded-2xl">
           Promovemos projetos que conectam arte, urbanismo e desenvolvimento social

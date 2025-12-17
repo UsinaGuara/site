@@ -1,7 +1,7 @@
-import React from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import bg_sobre from "../assets/bg_sobre.jpg";
+import { DestaqueSection } from "../components/DestaqueSection";
+import background from "../assets/bg_sobre.jpg";
 import guara from "../assets/guara.png";
 import sobre1 from "../assets/sobre1.png";
 import sobre2 from "../assets/sobre2.png";
@@ -13,19 +13,12 @@ function About() {
             <Header />
 
             {/* BANNER */}
-            <section
-                id="banner"
-                className="relative w-full h-[55vh] md:h-[45vh] lg:h-[55vh]"
-            >
-                <img
-                    src={bg_sobre}
-                    alt="Banner Usina Guará"
-                    className="w-full h-full object-cover"
-                />
+            <section className="relative w-full h-[50vh] flex flex-col items-center justify-center text-center bg-cover bg-center text-white"
+                style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${background})` }}>
             </section>
 
             {/* CONTEÚDO */}
-            <section className="w-full bg-[#0f1b2d] py-1 md:py-1 lg:py-5">
+            <section className="w-full bg-gray-1 py-1 pb-20">
                 <div className="max-w-6xl mx-auto px-6 flex flex-col items-center">
 
                     {/* SOBRE O COLETIVO */}
@@ -187,7 +180,7 @@ function About() {
 
                 </div>
             </section>
-
+            <DestaqueSection />
             <Footer />
         </>
     );
