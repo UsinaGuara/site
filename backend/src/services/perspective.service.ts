@@ -24,11 +24,28 @@ type UpdatePerspectiveInput = z.infer<typeof updatePerspectiveSchema>["body"];
  */
 const toPerspectiveResponse = (perspective: any): PerspectiveResponseType => {
   return {
-    ...perspective,
     _id: perspective._id.toString(),
-    projectId: perspective.projectId.toString(),
-    // Garante que os autores sejam um array, mesmo que venha nulo/undefined
-    authors: perspective.authors || [],
+
+    title: perspective.title,
+    slug: perspective.slug,
+    order: perspective.order,
+
+    project: {
+      _id: perspective.projectId._id.toString(),
+      slug: perspective.projectId.slug,
+    },
+
+    contentBlocks: perspective.contentBlocks ?? [],
+    references: perspective.references ?? [],
+    authors: perspective.authors ?? [],
+    banner: perspective.banner,
+
+    isCarousel: perspective.isCarousel,
+    orderCarousel: perspective.orderCarousel,
+    extraURL: perspective.extraURL,
+
+    createdAt: perspective.createdAt,
+    updatedAt: perspective.updatedAt,
   };
 };
 
@@ -48,15 +65,15 @@ export class PerspectiveService {
   ): Promise<PerspectiveResponseType> {
     try {
       const perspective = await PerspectiveModel.create(input);
-      // Popula os dados dos autores para retornar o objeto completo.
-      await perspective.populate({ path: "authors", model: "Person" });
+
+      await perspective.populate([{ path: "authors", model: "Person" }, { path: "projectId", select: "slug" },]);
       return toPerspectiveResponse(perspective.toObject());
     } catch (error: any) {
-      // Tratamento de erro específico para chave única (slug duplicado).
+
       if (error.code === 11000 && error.keyPattern?.slug) {
         throw new Error("Este slug de perspectiva já está em uso.");
       }
-       if (error.code === 11000 && error.keyPattern?.projectId && error.keyPattern?.order) {
+      if (error.code === 11000 && error.keyPattern?.projectId && error.keyPattern?.order) {
         throw new Error("Este número de ordem já está em uso para este projeto.");
       }
       throw error;
@@ -68,7 +85,13 @@ export class PerspectiveService {
    * @returns {Promise<PerspectiveResponseType[]>} Um array com todas as perspectivas.
    */
   static async findAll(): Promise<PerspectiveResponseType[]> {
-    const perspectives = await PerspectiveModel.find().lean();
+    const perspectives = await PerspectiveModel.find()
+      .populate({
+        path: "projectId",
+        select: "slug",
+      })
+      .populate("authors")
+      .lean();
     return perspectives.map(toPerspectiveResponse);
   }
 
@@ -81,6 +104,10 @@ export class PerspectiveService {
     projectId: string
   ): Promise<PerspectiveResponseType[]> {
     const perspectives = await PerspectiveModel.find({ projectId })
+      .populate({
+        path: "projectId",
+        select: "slug",
+      })
       .populate("authors")
       .lean();
     return perspectives.map(toPerspectiveResponse);
@@ -93,6 +120,10 @@ export class PerspectiveService {
    */
   static async findById(id: string): Promise<PerspectiveResponseType | null> {
     const perspective = await PerspectiveModel.findById(id)
+      .populate({
+        path: "projectId",
+        select: "slug",
+      })
       .populate("authors")
       .lean();
     if (!perspective) return null;
@@ -104,29 +135,63 @@ export class PerspectiveService {
    * @param {string} slug O slug da perspectiva.
    * @returns {Promise<PerspectiveResponseType | null>} A perspectiva encontrada ou nulo.
    */
-   static async findBySlug(slug: string): Promise<PerspectiveResponseType | null> {
-     const perspective = await PerspectiveModel.findOne({ slug })
-       .populate("authors")
-       .populate("projectId")
-       .lean();
-     if (!perspective) return null;
-     return toPerspectiveResponse(perspective);
-   }
+  static async findBySlug(slug: string): Promise<PerspectiveResponseType | null> {
+    const perspective = await PerspectiveModel.findOne({ slug })
+      .populate({
+        path: "projectId",
+        select: "slug",
+      })
+      .populate("authors")
+      .lean();
+    if (!perspective) return null;
+    return toPerspectiveResponse(perspective);
+  }
   /**
    * Atualiza uma perspectiva existente pelo seu ID.
    * @param {string} id - O ID da perspectiva a ser atualizada.
    * @param {UpdatePerspectiveInput} input - Os novos dados para a perspectiva.
    * @returns {Promise<PerspectiveResponseType | null>} A perspectiva atualizada ou nulo se não for encontrada.
    */
+  // perspective.service.ts (No Backend)
+
+  static async checkIfOrderExists(order: number, currentId: string): Promise<boolean> {
+    const perspective = await PerspectiveModel.findOne({
+      orderCarousel: order,
+      _id: { $ne: currentId }, // Exclui o documento que estamos atualizando
+      isCarousel: true, // Opcional, mas mais preciso: só checa se o item está ativo
+    }).lean();
+
+    return !!perspective; // Retorna true se um documento for encontrado, false caso contrário
+  }
   static async update(
     id: string,
+    // Note que UpdatePerspectiveInput deve ser tipado como parcial (Partial<T>)
     input: UpdatePerspectiveInput
   ): Promise<PerspectiveResponseType | null> {
-    const perspective = await PerspectiveModel.findByIdAndUpdate(id, input, {
-      new: true, // Garante que o método retorne o documento já atualizado.
+
+    // 1. Defina a constante de dados que será enviada ao Mongoose
+    const dataForDatabase = { ...input };
+
+
+    // 2. VALIDAÇÃO DE ORDEM (Prevenção de Ordem Duplicada)
+    if (input.isCarousel && input.orderCarousel !== undefined && input.orderCarousel !== null) {
+      const orderExists = await PerspectiveService.checkIfOrderExists(input.orderCarousel, id);
+
+      if (orderExists) {
+        throw new Error(
+          `A ordem ${input.orderCarousel} já está em uso por outra perspectiva.`
+        );
+      }
+    }
+
+    // 3. EXECUÇÃO DO UPDATE (O Mongoose faz o PATCH por padrão)
+    const perspective = await PerspectiveModel.findByIdAndUpdate(id, dataForDatabase, {
+      new: true,
+      runValidators: true, 
     })
       .populate("authors")
       .lean();
+
     if (!perspective) return null;
     return toPerspectiveResponse(perspective);
   }

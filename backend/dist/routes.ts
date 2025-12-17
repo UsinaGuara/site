@@ -117,9 +117,27 @@ const models: TsoaRoute.Models = {
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"extraURL":{"dataType":"string"},"banner":{"dataType":"string"},"orderCarousel":{"dataType":"double"},"isCarousel":{"dataType":"boolean"},"status":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["draft"]},{"dataType":"enum","enums":["published"]}]},"team":{"dataType":"array","array":{"dataType":"string"}},"about_html":{"dataType":"string"},"year":{"dataType":"double"},"category":{"dataType":"string"},"slug":{"dataType":"string"},"subtitle":{"dataType":"string"},"title":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedProjectsResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"ProjectResponseType"},"required":true},
+            "totalPages": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UpdateProjectInput": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"extraURL":{"dataType":"string"},"banner":{"dataType":"string"},"orderCarousel":{"dataType":"double"},"isCarousel":{"dataType":"boolean"},"status":{"dataType":"union","subSchemas":[{"dataType":"enum","enums":["draft"]},{"dataType":"enum","enums":["published"]}]},"team":{"dataType":"array","array":{"dataType":"string"}},"about_html":{"dataType":"string"},"year":{"dataType":"double"},"category":{"dataType":"string"},"slug":{"dataType":"string"},"subtitle":{"dataType":"string"},"title":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IProjectDTO": {
+        "dataType": "refObject",
+        "properties": {
+            "_id": {"dataType":"string","required":true},
+            "slug": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "ITextBlock": {
@@ -176,7 +194,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "_id": {"dataType":"string","required":true},
-            "projectId": {"dataType":"string","required":true},
+            "project": {"ref":"IProjectDTO","required":true},
             "title": {"dataType":"string","required":true},
             "slug": {"dataType":"string","required":true},
             "order": {"dataType":"double","required":true},
@@ -226,11 +244,32 @@ const models: TsoaRoute.Models = {
         "properties": {
             "_id": {"dataType":"string","required":true},
             "title": {"dataType":"string","required":true},
+            "slug": {"dataType":"string","required":true},
             "collection_type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["project"]},{"dataType":"enum","enums":["perspective"]}],"required":true},
             "banner": {"dataType":"string"},
             "isCarousel": {"dataType":"boolean"},
             "orderCarousel": {"dataType":"double"},
             "extraURL": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginationMeta": {
+        "dataType": "refObject",
+        "properties": {
+            "page": {"dataType":"double","required":true},
+            "limit": {"dataType":"double","required":true},
+            "total": {"dataType":"double","required":true},
+            "totalPages": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedCarouselResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "items": {"dataType":"array","array":{"dataType":"refObject","ref":"CarouselResponseType"},"required":true},
+            "meta": {"ref":"PaginationMeta","required":true},
         },
         "additionalProperties": false,
     },
@@ -247,6 +286,16 @@ const models: TsoaRoute.Models = {
     "LoginInput": {
         "dataType": "refAlias",
         "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"password":{"dataType":"string"},"email":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RequestResetInput": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"email":{"dataType":"string"}},"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ResetPasswordInput": {
+        "dataType": "refAlias",
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"newPassword":{"dataType":"string"},"userId":{"dataType":"string"}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -608,6 +657,8 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsProjectController_getAllProjects: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"default":1,"in":"query","name":"page","dataType":"double"},
+                limit: {"default":6,"in":"query","name":"limit","dataType":"double"},
         };
         app.get('/projects',
             ...(fetchMiddlewares<RequestHandler>(ProjectController)),
@@ -814,6 +865,8 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsProjectController_getProjectsByCategory: Record<string, TsoaRoute.ParameterSchema> = {
                 category: {"in":"path","name":"category","required":true,"dataType":"string"},
+                page: {"default":1,"in":"query","name":"page","dataType":"double"},
+                limit: {"default":6,"in":"query","name":"limit","dataType":"double"},
         };
         app.get('/projects/category/:category',
             ...(fetchMiddlewares<RequestHandler>(ProjectController)),
@@ -846,8 +899,7 @@ export function RegisterRoutes(app: Router) {
                 id: {"in":"path","name":"id","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateProjectInput"},
         };
-        app.put('/projects/:id',
-            authenticateMiddleware([{"jwt":[]}]),
+        app.patch('/projects/:id',
             ...(fetchMiddlewares<RequestHandler>(ProjectController)),
             ...(fetchMiddlewares<RequestHandler>(ProjectController.prototype.updateProject)),
 
@@ -1060,8 +1112,7 @@ export function RegisterRoutes(app: Router) {
                 perspectiveId: {"in":"path","name":"perspectiveId","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdatePerspectiveInput"},
         };
-        app.put('/perspectives/:perspectiveId',
-            authenticateMiddleware([{"jwt":[]}]),
+        app.patch('/perspectives/:perspectiveId',
             ...(fetchMiddlewares<RequestHandler>(PerspectiveController)),
             ...(fetchMiddlewares<RequestHandler>(PerspectiveController.prototype.updatePerspective)),
 
@@ -1274,8 +1325,10 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCarouselController_getAllCarouselOrder: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                limit: {"in":"query","name":"limit","dataType":"double"},
         };
-        app.get('/carousel',
+        app.get('/carousel/page',
             ...(fetchMiddlewares<RequestHandler>(CarouselController)),
             ...(fetchMiddlewares<RequestHandler>(CarouselController.prototype.getAllCarouselOrder)),
 
@@ -1291,6 +1344,93 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getAllCarouselOrder',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCarouselController_getAllCarouselFlat: Record<string, TsoaRoute.ParameterSchema> = {
+        };
+        app.get('/carousel',
+            ...(fetchMiddlewares<RequestHandler>(CarouselController)),
+            ...(fetchMiddlewares<RequestHandler>(CarouselController.prototype.getAllCarouselFlat)),
+
+            async function CarouselController_getAllCarouselFlat(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCarouselController_getAllCarouselFlat, request, response });
+
+                const controller = new CarouselController();
+
+              await templateService.apiHandler({
+                methodName: 'getAllCarouselFlat',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCarouselController_getAllInactiveCarouselItems: Record<string, TsoaRoute.ParameterSchema> = {
+        };
+        app.get('/carousel/inactive',
+            ...(fetchMiddlewares<RequestHandler>(CarouselController)),
+            ...(fetchMiddlewares<RequestHandler>(CarouselController.prototype.getAllInactiveCarouselItems)),
+
+            async function CarouselController_getAllInactiveCarouselItems(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCarouselController_getAllInactiveCarouselItems, request, response });
+
+                const controller = new CarouselController();
+
+              await templateService.apiHandler({
+                methodName: 'getAllInactiveCarouselItems',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsCarouselController_getAllCarouselCandidates: Record<string, TsoaRoute.ParameterSchema> = {
+        };
+        app.get('/carousel/all',
+            ...(fetchMiddlewares<RequestHandler>(CarouselController)),
+            ...(fetchMiddlewares<RequestHandler>(CarouselController.prototype.getAllCarouselCandidates)),
+
+            async function CarouselController_getAllCarouselCandidates(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsCarouselController_getAllCarouselCandidates, request, response });
+
+                const controller = new CarouselController();
+
+              await templateService.apiHandler({
+                methodName: 'getAllCarouselCandidates',
                 controller,
                 response,
                 next,
@@ -1321,6 +1461,66 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'login',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsAuthController_requestPasswordReset: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"ref":"RequestResetInput"},
+        };
+        app.post('/auth/request-password-reset',
+            ...(fetchMiddlewares<RequestHandler>(AuthController)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.requestPasswordReset)),
+
+            async function AuthController_requestPasswordReset(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsAuthController_requestPasswordReset, request, response });
+
+                const controller = new AuthController();
+
+              await templateService.apiHandler({
+                methodName: 'requestPasswordReset',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsAuthController_resetPassword: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"ref":"ResetPasswordInput"},
+        };
+        app.post('/auth/reset-password',
+            ...(fetchMiddlewares<RequestHandler>(AuthController)),
+            ...(fetchMiddlewares<RequestHandler>(AuthController.prototype.resetPassword)),
+
+            async function AuthController_resetPassword(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsAuthController_resetPassword, request, response });
+
+                const controller = new AuthController();
+
+              await templateService.apiHandler({
+                methodName: 'resetPassword',
                 controller,
                 response,
                 next,

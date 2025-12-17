@@ -3,6 +3,7 @@ import api from "../lib/api";
 export interface CarouselResponseType {
   _id: string;
   title: string;
+  slug: string;
   collection_type: "project" | "perspective";
   banner?: string;
   isCarousel?: boolean;
@@ -11,14 +12,8 @@ export interface CarouselResponseType {
 }
 
 export const CarouselService = {
-  getAllCarouselOrder: async (
-    token: string
-  ): Promise<CarouselResponseType[]> => {
-    const response = await api.get<CarouselResponseType[]>("/carousel", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  getAllCarouselOrder: async (): Promise<CarouselResponseType[]> => {
+    const response = await api.get<CarouselResponseType[]>("/carousel");
     return response.data;
   },
 };
