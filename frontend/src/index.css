@@ -58,6 +58,10 @@ body {
   gap: 20px;
 }
 
+.slick-dots li button::before{
+  color: var(--color-gray-5)!important;
+}
+
 .fade_in {
   animation: fadein 200ms ease forwards;
 }

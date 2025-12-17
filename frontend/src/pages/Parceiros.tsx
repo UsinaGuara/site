@@ -1,48 +1,82 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { DestaqueSection } from "../components/DestaqueSection";
 import Parceiros from "../components/Parceiros";
 import background from "../assets/bg_parceiros.png";
+import LEI from "../assets/LEI.png";
+import IF from "../assets/IF.png";
+import CBT from "../assets/CBT.png";
+import EVORA from "../assets/EVORA.png";
+
+const parceiros = [
+  {
+    title: "Governo Federal",
+    description: "Lei Paulo Gustavo de Fomento à Cultura (2023)",
+    image: LEI,
+  },
+  {
+    title: "Prefeitura Municipal de Cubatão",
+    description: "Secretaria de Cultura",
+    image: CBT,
+  },
+  {
+    title: "Instituto Federal",
+    description: "Campus Cubatão",
+    image: IF,
+  },
+  {
+    title: "Evora Coletivo",
+    description: "Espaço Cultural @Cubatão",
+    image: EVORA,
+  },
+];
 
 export default function ParceirosPage() {
   return (
     <>
       <Header />
       <div className="bg-gray-900 text-white">
-        <header
-          className="relative w-full h-[60vh] flex items-end justify-center text-center bg-cover bg-center"
-          style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.8)), url(${background})` }}
-        >
-          <div className="pb-20 px-4">
-            <h1 className="text-5xl font-bold">Nossos Parceiros</h1>
-            <p className="text-lg mt-2">Quem nos apoia a construir a Usina Guará</p>
-
-            <div className="flex justify-center flex-wrap gap-3 mt-4">
-                <span className="bg-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                  Urbanização
-                </span>
-                <span className="bg-gray-700/80 text-gray-200 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                  2024
-                </span>
-                <span className="bg-gray-700/80 text-gray-200 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">
-                  15 meses de desenvolvimento
-                </span>
+          <header className="relative w-full h-[50vh] flex flex-col items-center justify-center text-center bg-cover bg-center text-white"
+            style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${background})` }}>
+              <h2 className="text-5xl md:text-7xl font-bold mb-3">Nossos Parceiros</h2>
+              <p className="max-w-3xl mx-auto text-lg px-4">Quem nos apoia a construir a Usina Guará</p>
+              <div className="flex justify-center flex-wrap gap-3 mt-4">
+                <span className="bg-red-600 text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">Urbanização</span>
+                <span className="bg-gray-700/80 text-gray-200 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">2024</span>
+                <span className="bg-gray-700/80 text-gray-200 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider">15 meses de desenvolvimento</span>
             </div>
-          </div>
-        </header>
+          </header>
         <Parceiros />
         <div className="flex flex-col items-center gap-16 max-w-7xl w-full mx-auto py-16">
           <div className='w-[80%] flex flex-col items-start'>
             <h3 className="text-2xl font-bold mb-4">Agradecimentos</h3>
-            <div className="flex gap-5 bg-gray-5 p-8 rounded-2xl w-full">
-              <img src="#" alt="" />
-              <div className="flex flex-col">
-                <p className="text-lg font-bold text-gray-1">Governo Federal</p>
-                <p className="text-md text-gray-2">Lei Paulo Gustavo de Fomento à Cultura (2023)</p>
-              </div>
-            </div>
+            <div className="flex flex-col gap-5 w-full mt-6">
+  {parceiros.map((parceiro, index) => (
+    <div
+      key={index}
+      className="flex items-center gap-5 bg-gray-100 p-8 rounded-2xl w-full"
+    >
+      <img
+        src={parceiro.image}
+        alt={parceiro.title}
+        className="w-24 sm:w-32 h-24 sm:h-32 rounded-full"
+      />
+      <div className="flex flex-col">
+        <p className="text-lg font-bold text-gray-1">
+          {parceiro.title}
+        </p>
+        <p className="text-md text-gray-2">
+          {parceiro.description}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
+
           </div>
         </div>
       </div>
+      <DestaqueSection />
       <Footer />
     </>
   );

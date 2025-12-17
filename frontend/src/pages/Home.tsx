@@ -1,4 +1,4 @@
-import homeBanner from "../assets/homeBanner.png";
+import background from "../assets/bg_home.png";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { DestaqueSection } from "../components/DestaqueSection";
@@ -29,8 +29,10 @@ function Home() {
   const getAllProjectsAndOrderByDate = async () => {
     try {
       const projects = await ProjectService.getAllProjects(1, 99999);
-      projects.data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      setLastProjectsData(projects);
+      const sortedProjects = projects.data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        .slice(0, 7);
+      setLastProjectsData({ ...projects, data: sortedProjects });
     } catch (e) {
       console.log(e);
     }
@@ -43,7 +45,6 @@ function Home() {
     year: 'numeric',
   });
 }
-
 
   useEffect(() => {
     getAllCarousel();
@@ -72,34 +73,32 @@ function Home() {
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
     arrows: true,
+    dots: true,
     cssEase: "ease-in-out",
+  };
+
+  const carouselSettings = {
+    ...settings,
+    dots: carouselData.length <= 7,
   };
 
   return (
     <>
       <Header />
-      <section id="banner" className="relative">
-        <img
-          src={homeBanner}
-          alt="Banner Usina Guará"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute top-0 w-full h-full flex flex-col items-center justify-center bg-black/50">
-          <h2 className="max-w-5xl text-white text-center text-3xl sm:text-4xl lg:text-5xl font-bold mb-5 px-4">
-            Transformando Comunidades Através da Economia Criativa e do Urbanismo
-          </h2>
-          <p className="max-w-3xl text-white text-center text-base sm:text-lg font-bold px-6 py-2 bg-gray-700/70 rounded-2xl">
-            Promovemos projetos que conectam arte, urbanismo e desenvolvimento social
-            para criar espaços mais humanos e sustentáveis.
-          </p>
-        </div>
-      </section>
+      <header className="relative w-full min-h-[82vh] h-full py-5 flex flex-col items-center justify-center text-center bg-cover bg-center text-white"
+        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${background})` }}>
+        <h2 className="h-max max-w-5xl text-white text-center text-3xl sm:text-4xl lg:text-5xl font-bold px-4 mb-3">Transformando Comunidades Através da Economia Criativa e do Urbanismo</h2>
+        <p className="mx-2 h-max max-w-3xl text-white text-center text-base sm:text-lg font-bold px-6 py-2 bg-gray-700/70 rounded-2xl">
+          Promovemos projetos que conectam arte, urbanismo e desenvolvimento social
+          para criar espaços mais humanos e sustentáveis.
+        </p>
+      </header>
       <section className="w-full flex flex-col items-center justify-center bg-gray-800 p-6">
         <div id="destaques" className="w-full max-w-[1380px] mt-20 mb-15">
           <h2 className="text-white text-3xl font-bold text-center mb-7">
             Projetos em Destaque
           </h2>
-          <Slider {...settings}>
+          <Slider {...carouselSettings}>
             {carouselData.map((card, index) => (
               <CardCarousel
                 key={index}
