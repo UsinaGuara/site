@@ -108,7 +108,7 @@ Para operar dentro do limite de **512MB de RAM** do plano gratuito e evitar erro
 Acesse a interface do **Swagger** para explorar e testar os endpoints em tempo real:
 
 * **🌐 Ambiente Local:** [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
-* **🚀 Ambiente de Produção:** [API Usina Guará no Render](https://site-v5hr.onrender.com/api-docs/)
+* **🚀 Ambiente de Produção:** [API Usina Guará no Render](https://site-v5hr.onrender.com/api-docs/#/)
 
 ---
 
