@@ -55,7 +55,11 @@ const startServer = async () => {
     // --- MIDDLEWARES GLOBAIS ---
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use(express_1.default.json()); // Permite o processamento de JSON no corpo das requisições
-    app.use((0, cors_1.default)()); // Habilita CORS para permitir requisições de diferentes origens
+    app.use((0, cors_1.default)({
+        origin: '*', // Permite acesso de qualquer lugar (ideal para o momento de desenvolvimento/voluntariado)
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+    }));
     /**
      * Configuração dinâmica da Documentação Swagger.
      * Consome o swagger.json gerado pelo TSOA.
