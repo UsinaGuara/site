@@ -54,6 +54,7 @@ function Home() {
       
       // TIPAGEM ADICIONADA: (a: ProjectResponseType, b: ProjectResponseType)
       const sortedProjects = projects.data
+        .filter((project: ProjectResponseType) => project.status === "published")
         .sort((a: ProjectResponseType, b: ProjectResponseType) => 
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         )
