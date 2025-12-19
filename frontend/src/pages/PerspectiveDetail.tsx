@@ -46,7 +46,7 @@ export default function PerspectiveDetail() {
 
     async function loadOtherPerspectives() {
       try {
-        const projectId = perspective?.project?.id;
+        const projectId = perspective?.project?._id;
         if (!projectId) {
           console.error("projectId not found in perspective.");
           return;
