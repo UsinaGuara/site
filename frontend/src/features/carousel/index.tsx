@@ -14,6 +14,7 @@ const CarouselItemRow: React.FC<{
     const [isEditing, setIsEditing] = useState(false);
     const [rowFeedback, setRowFeedback] = useState('');
     const [isRowSaving, setIsRowSaving] = useState(false);
+    const [apiError, setApiError] = useState<string | null>(null);
 
     const handleOrderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -27,12 +28,15 @@ const CarouselItemRow: React.FC<{
         setRowFeedback('');
     };
 
+    // Dentro do CarouselItemRow
     const saveCurrentItem = async () => {
         setIsRowSaving(true);
         setRowFeedback('');
+        setApiError(null); // Limpa erros anteriores
 
         const result = await handleSaveItem(item);
 
+        // Se falhou, o result.message conterá "Conflito de dados: O campo 'order'..."
         setRowFeedback(result.message);
         setIsRowSaving(false);
 
@@ -40,7 +44,9 @@ const CarouselItemRow: React.FC<{
             setIsEditing(false);
         }
 
-        setTimeout(() => setRowFeedback(''), 4000);
+        // Deixa a mensagem de erro por mais tempo se for falha (ex: 6 segundos)
+        const timer = result.success ? 4000 : 6000;
+        setTimeout(() => setRowFeedback(''), timer);
     };
 
     const removeCurrentItem = async () => {
@@ -69,11 +75,11 @@ const CarouselItemRow: React.FC<{
 
 
     return (
-        <tr className={`border-b border-dark-1 hover:bg-dark-1 
-            ${isOrdered ? 'bg-dark-2' : 'bg-yellow-900/40'} 
-            ${isEditing ? 'border-2 border-indigo-500' : ''}`}> 
+        <tr className={`border-b border-gray-500 hover:bg-gray-800
+            ${isOrdered ? 'bg-gray-900' : 'bg-yellow-900/50'} 
+            ${isEditing ? 'border-3 border-indigo-500' : ''}`}>
 
-            <td className="px-6 py-4 font-medium text-gray-100 whitespace-nowrap"> 
+            <td className="px-6 py-4 font-medium text-gray-100 whitespace-nowrap">
                 {item.title}
                 <span className={`ml-2 text-xs font-semibold ${typeColor}`}>
                     [{item.collection_type.toUpperCase()}]
@@ -107,19 +113,19 @@ const CarouselItemRow: React.FC<{
             {/* Coluna de AÇÃO E FEEDBACK */}
             <td className="px-6 py-4 text-center">
                 {!isEditing ? (
-                    
+
                     <div className="space-y-1">
                         <button
                             onClick={() => setIsEditing(true)}
                             disabled={isSaving}
-                            className={`p-2 rounded text-white text-xs font-bold transition-colors w-24 bg-teal-600 hover:bg-teal-500`} 
+                            className={`p-2 rounded text-white text-xs font-bold transition-colors w-24 bg-teal-600 hover:bg-teal-500`}
                         >
                             Editar
                         </button>
                         <button
                             onClick={removeCurrentItem}
                             disabled={isSaving}
-                            className={`p-2 rounded text-xs transition-colors w-24 bg-red-700 text-white hover:bg-red-600`} 
+                            className={`p-2 rounded text-xs transition-colors w-24 bg-red-700 text-white hover:bg-red-600`}
                         >
                             Remover Destaque
                         </button>
@@ -131,14 +137,14 @@ const CarouselItemRow: React.FC<{
                             onClick={saveCurrentItem}
                             disabled={isRowSaving || isSaving}
                             className={`p-2 rounded text-white text-xs font-bold transition-colors w-24
-                                ${isRowSaving || isSaving ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-700 hover:bg-green-600'}`} 
+                            ${isRowSaving || isSaving ? 'bg-gray-00 cursor-not-allowed' : 'bg-green-700 hover:bg-green-600'}`}
                         >
                             {isRowSaving ? 'Salvando...' : 'Salvar'}
                         </button>
                         <button
                             onClick={cancelEdit}
                             disabled={isRowSaving || isSaving}
-                            className={`p-2 rounded text-xs transition-colors w-24 bg-gray-600 text-gray-100 hover:bg-gray-500`} 
+                            className={`p-2 rounded text-xs transition-colors w-24 bg-gray-600 text-gray-100 hover:bg-gray-500`}
                         >
                             Cancelar
                         </button>
@@ -170,14 +176,14 @@ export const FormCarouselHighlights: React.FC = () => {
     }
 
     if (error && highlightItems.length === 0) {
-        return <div className="p-6 bg-dark-1 shadow-lg rounded-lg text-red-400 text-center py-8">
+        return <div className="p-6 bg-gray-800 shadow-lg rounded-lg text-red-400 text-center py-8">
             Falha ao carregar destaques do carrossel. Verifique a API.
         </div>;
     }
 
     if (highlightItems.length === 0 && !isLoading && !error) {
         return (
-            <div className="p-6 bg-dark-1 shadow-lg rounded-lg">
+            <div className="p-6 bg-gray-800-shadow-lg rounded-lg">
                 <h2 className="text-2xl font-bold mb-6 text-gray-100">✨ Gestão de Destaques do Carrossel</h2>
                 <p className="text-gray-400 p-4 border border-gray-600 rounded">Não há itens marcados como candidatos ao carrossel. Por favor, use a opção 'Adicionar Novo Item' no menu superior.</p>
             </div>
@@ -186,7 +192,7 @@ export const FormCarouselHighlights: React.FC = () => {
 
 
     return (
-        <div className="p-6 bg-dark-2 shadow-lg rounded-lg"> {/* Fundo de card (cinza escuro principal) */}
+        <div className="p-6 bg-gray-800 shadow-lg rounded-lg"> {/* Fundo de card (cinza escuro principal) */}
             <h2 className="text-2xl font-bold mb-6 text-gray-100">Gestão de Destaques do Carrossel</h2> {/* Título branco/claro */}
 
             {error && (
