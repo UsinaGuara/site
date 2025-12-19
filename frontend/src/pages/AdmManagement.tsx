@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Selection } from "../components/inputs";
+import { Selection } from "../components/Inputs";
 import { Link } from "react-router-dom";
 import { FaGear } from "react-icons/fa6";
 import { RiArrowGoBackFill } from "react-icons/ri";

@@ -44,7 +44,7 @@ function Header() {
                     <NavLink to="/sobre" className="text-gray-400 border-b-2 border-transparent hover:text-gray-300 hover:border-gray-300 transition">Usina Guará</NavLink>
                     <NavLink to="/projetos" className="text-gray-400 border-b-2 border-transparent hover:text-gray-300 hover:border-gray-300 transition">Projetos</NavLink>
                     <NavLink to="/parceiros" className="text-gray-400 border-b-2 border-transparent hover:text-gray-300 hover:border-gray-300 transition">Nossos Parceiros</NavLink>
-                    <a href="/projetos#" className="text-gray-400 border-b-2 border-transparent hover:text-gray-300 hover:border-gray-300 transition">Instagram</a>
+                    <a href="https://www.instagram.com/usinaguara/" target='blank' className="text-gray-400 border-b-2 border-transparent hover:text-gray-300 hover:border-gray-300 transition">Instagram</a>
                     <IoMdShare className='lg:hidden block text-2xl text-red-500 cursor-pointer transition hover:text-red-400'/>
                 </ul>
             </div>

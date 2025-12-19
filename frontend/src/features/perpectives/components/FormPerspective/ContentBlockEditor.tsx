@@ -1,7 +1,7 @@
 import { useFieldArray } from "react-hook-form";
 import type { UseFormRegister, Control } from "react-hook-form";
 import type { PerspectiveFormData, IContentBlock } from "./perspective.schema";
-import { TypeInput, Textarea } from "../../../../components/inputs"; 
+import { TypeInput, Textarea } from "../../../../components/Inputs"; 
 import { FaTrash, FaBars } from "react-icons/fa6";
 
 // Importações da biblioteca de Drag and Drop: dnd-kit

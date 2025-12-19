@@ -1,5 +1,5 @@
 import { Controller } from "react-hook-form";
-import { TypeInput, Selection } from "../../../../components/inputs";
+import { TypeInput, Selection } from "../../../../components/Inputs";
 import { usePeopleForm } from "../../usePeopleForm";
 
 interface FormPeopleProps {

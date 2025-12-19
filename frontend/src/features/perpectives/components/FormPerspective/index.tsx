@@ -1,5 +1,5 @@
 import { Controller } from "react-hook-form";
-import { TypeInput, Selection, MultiSelect } from "../../../../components/inputs";
+import { TypeInput, Selection, MultiSelect } from "../../../../components/Inputs";
 import { usePerspectiveForm } from "./usePerspectiveForm";
 import { ContentBlockEditor } from "./ContentBlockEditor";
 

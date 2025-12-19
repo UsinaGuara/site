@@ -5,7 +5,7 @@ import "./index.css";
 import Home from "./pages/Home";
 import AdmManagement from "./pages/AdmManagement";
 import Login from "./pages/Login";
-import ProtectedRoute from "./service/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 import AllProjects from "./pages/AllProjects";
 import ProjectPage from "./pages/Project";
 import ProjectDetail from "./pages/ProjectDetail";
