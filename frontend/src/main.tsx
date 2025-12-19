@@ -65,7 +65,9 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-]);
+],{
+  basename: "/site", // O PASSO MAIS IMPORTANTE: Adicione esta linha aqui
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
