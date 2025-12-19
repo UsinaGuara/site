@@ -1,13 +1,12 @@
 import api from "../lib/api.ts";
-import type PeopleRequest from "../dto/request/peopleRequest.ts";
-import type PeopleResponse from "../dto/response/peopleResponse.ts";
+import type {PeopleResponseType, PeopleRequestType} from "../features/people/people.types.ts";
 
 export const PeopleService = {
   createPeople: async (
     token: string,
-    people: PeopleRequest
-  ): Promise<PeopleResponse> => {
-    const response = await api.post<PeopleResponse>(`/people`, people, {
+    people: PeopleRequestType
+  ): Promise<PeopleResponseType> => {
+    const response = await api.post<PeopleResponseType>(`/people`, people, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -15,8 +14,8 @@ export const PeopleService = {
     return response.data;
   },
 
-  getAllPeople: async (token: string): Promise<PeopleResponse[]> => {
-    const response = await api.get<PeopleResponse[]>(`/people`, {
+  getAllPeople: async (token: string): Promise<PeopleResponseType[]> => {
+    const response = await api.get<PeopleResponseType[]>(`/people`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -27,8 +26,8 @@ export const PeopleService = {
   getPeopleById: async (
     token: string,
     peopleId: string
-  ): Promise<PeopleResponse> => {
-    const response = await api.get<PeopleResponse>(`/people/${peopleId}`, {
+  ): Promise<PeopleResponseType> => {
+    const response = await api.get<PeopleResponseType>(`/people/${peopleId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -39,9 +38,9 @@ export const PeopleService = {
   updatePeople: async (
     token: string,
     peropleId: string,
-    people: PeopleRequest
-  ): Promise<PeopleResponse> => {
-    const response = await api.put<PeopleResponse>(
+    people: PeopleRequestType
+  ): Promise<PeopleResponseType> => {
+    const response = await api.put<PeopleResponseType>(
       `/people/${peropleId}`,
       people,
       {

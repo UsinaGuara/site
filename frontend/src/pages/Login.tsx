@@ -3,9 +3,9 @@ import { useState } from "react"; // Importa o useState
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-import { TypeInput, PasswordInput } from "../components/inputs";
+import { TypeInput, PasswordInput } from "../components/Inputs";
 import { authService } from "../features/auth/auth.service";
 
 import { FaRegUser } from "react-icons/fa6";
@@ -24,6 +24,8 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const errorType = searchParams.get('error');
 
   // Configurar o react-hook-form com o resolver do Zod
   const {
@@ -77,6 +79,11 @@ function Login() {
           <FaRegUser className="w-1/2 h-1/2 text-red-2" />
         </div>
 
+        {errorType === 'expired' && (
+          <div className="bg-yellow-600/20 border border-yellow-600 text-yellow-100 p-3 rounded mb-4 text-center">
+            Sua sessão expirou por inatividade. Por favor, faça login novamente.
+          </div>
+        )}
         {/* Coluna do Formulário */}
         <div className="w-full md:w-1/2 flex flex-col justify-center">
           <form onSubmit={handleSubmit(handleLogin)} className="p-8 sm:p-12">
@@ -99,7 +106,7 @@ function Login() {
             {/* Campo de Email */}
             <TypeInput
               id="email"
-              title="Email"
+              title="Username"
               type="email"
               placeholder="seuemail@exemplo.com"
               icon={<FaRegUser />}

@@ -5,7 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 
-import { TypeInput } from "../components/inputs";
+import { TypeInput } from "../components/Inputs";
 import { authService } from "../features/auth/auth.service";
 
 import { FaRegUser } from "react-icons/fa6";
