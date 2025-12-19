@@ -15,7 +15,10 @@ function expressAuthentication(request, securityName, scopes) {
             // 1. Extração do Header Authorization
             const authHeader = request.headers.authorization;
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
-                return reject(new Error('Nenhum token fornecido ou formato inválido.'));
+                return reject({
+                    status: 401, // <--- O segredo está aqui!
+                    message: 'Nenhum token fornecido ou formato inválido.'
+                });
             }
             const token = authHeader.split(' ')[1];
             // 2. Validação da Variável de Ambiente
@@ -26,7 +29,10 @@ function expressAuthentication(request, securityName, scopes) {
             // 3. Verificação do Token
             jsonwebtoken_1.default.verify(token, secret, (err, decoded) => {
                 if (err) {
-                    return reject(new Error('Token inválido ou expirado.'));
+                    return reject({
+                        status: 401, // <--- Força o status 401
+                        message: 'Token inválido ou expirado.'
+                    });
                 }
                 // 4. Injeção de Contexto
                 // Preenche o request.user para que o Controller saiba QUEM está fazendo a chamada

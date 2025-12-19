@@ -105,20 +105,41 @@ API REST robusta para gerenciamento de conteúdo e infraestrutura digital da Usi
       });
     }
 
-    // 4. Tratamento de erros genéricos (Error instanciados)
-    if (err instanceof Error) {
-      console.error("ERRO CAPTURADO PELO SERVIDOR:", err);
+    // --- server.ts ---
 
-      if (err.message === 'Este slug já está em uso.') {
-        return res.status(409).json({ message: err.message });
+    // ... dentro do app.use(function errorHandler ...)
+
+    // 4. Tratamento de erros genéricos e Regras de Negócio
+    if (err instanceof Error) {
+      // Log apenas para o desenvolvedor ver no terminal
+      console.error("LOG SERVIDOR:", err.message);
+
+      // LISTA DE PALAVRAS-CHAVE: Se a mensagem tiver algo disso, é erro do usuário (409)
+      const businessErrors = [
+        "já está em uso",
+        "duplicado",
+        "já existe",
+        "não encontrado",
+        "inválido"
+      ];
+
+      // Verifica se a mensagem do erro contém alguma das palavras acima
+      const isUserError = businessErrors.some(keyword =>
+        err.message.toLowerCase().includes(keyword.toLowerCase())
+      );
+
+      if (isUserError) {
+        return res.status(409).json({
+          message: err.message 
+        });
       }
 
-      // Se não tiver um status definido, aí sim retornamos 500
+      // Se for um erro técnico real (banco caiu, código errado), aí sim 500
       return res.status(500).json({
-        message: err.message || "Internal Server Error",
+        message: "Internal Server Error",
+        details: process.env.NODE_ENV === 'development' ? err.message : undefined
       });
     }
-
     next();
   } as ErrorRequestHandler);
 

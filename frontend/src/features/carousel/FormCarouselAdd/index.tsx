@@ -29,7 +29,7 @@ const InactiveItemRow: React.FC<{
     const feedbackStyle = rowFeedback.includes('Erro') ? 'text-red-400' : 'text-green-400';
 
     return (
-        <tr className="border-b border-gray-700 hover:bg-gray-800">
+        <tr className="border-b border-gray-500 hover:bg-gray-800">
             <td className="px-6 py-3 font-medium text-gray-200">
                 {item.title}
                 <span className={`ml-2 text-xs font-semibold ${typeColor}`}>
@@ -78,7 +78,7 @@ export const FormCarouselAdd: React.FC = () => {
 
     if (error) {
         return (
-            <div className="p-6 bg-dark-2 shadow-lg rounded-lg">
+            <div className="p-6 bg- bg-gray-800 shadow-lg rounded-lg">
                 <h2 className="text-2xl font-bold mb-6 text-gray-100">Adicionar Destaques</h2>
                 <div className="bg-red-800 border border-red-600 text-red-200 px-4 py-3 rounded relative">
                     Erro: {error}. Verifique a API.
@@ -88,7 +88,7 @@ export const FormCarouselAdd: React.FC = () => {
     }
 
     return (
-        <div className="p-6 bg-dark-2 shadow-lg rounded-lg">
+        <div className="p-6 bg-gray-800 shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold mb-6 text-gray-100">Adicionar Destaques (Itens Inativos)</h2>
 
             {inactiveItems.length === 0 ? (
@@ -98,7 +98,7 @@ export const FormCarouselAdd: React.FC = () => {
             ) : (
                 <div className="overflow-x-auto relative border border-gray-600 rounded-lg">
                     <table className="w-full text-sm text-left text-gray-300">
-                        <thead className="text-xs text-gray-200 uppercase bg-gray-700">
+                        <thead className="text-xs text-gray-200 uppercase bg-gray-600">
                             <tr>
                                 <th className="py-2 px-4">Item (Inativo)</th>
                                 <th className="py-2 px-4 text-center">Ação</th>

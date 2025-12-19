@@ -54,6 +54,8 @@ export function useCarouselForm() {
         ));
     };
 
+   // ... dentro de useCarouselForm.ts
+
     const handleSaveItem = async (item: CarouselResponseType): Promise<{ success: boolean, message: string }> => {
         setIsSaving(true); 
 
@@ -69,27 +71,24 @@ export function useCarouselForm() {
             }
 
             await fetchData();
-
             setIsSaving(false);
             return { success: true, message: `"${item.title}" salvo com sucesso!` };
 
-        } catch (err) {
-            console.error(`Falha ao salvar ${item.title} (${item.collection_type}):`, err);
+        } catch (err: any) { 
+            console.error(`Falha ao salvar ${item.title}:`, err);
             setIsSaving(false);
-            return { success: false, message: `Erro ao salvar "${item.title}".` };
+            // Captura a mensagem do backend ("A ordem X já está em uso")
+            const apiMessage = err.response?.data?.message || `Erro ao salvar "${item.title}".`;
+            return { success: false, message: `Erro: ${apiMessage}` };
         }
     };
 
     const handleActivateItem = async (type: 'project' | 'perspective', id: string) => {
-
         const maxOrder = highlightItems.reduce((max, item) =>
             (item.orderCarousel !== undefined && item.orderCarousel !== null && item.orderCarousel > max ? item.orderCarousel : max), -1);
         const newOrder = maxOrder + 1;
 
-        const payload = {
-            orderCarousel: newOrder,
-            isCarousel: true,
-        };
+        const payload = { orderCarousel: newOrder, isCarousel: true };
 
         try {
             if (type === 'project') {
@@ -101,19 +100,16 @@ export function useCarouselForm() {
             await fetchData();
             return { success: true, message: "Item adicionado com sucesso!" };
 
-        } catch (err) {
-            return { success: false, message: "Erro ao adicionar item." };
+        } catch (err: any) {
+            // Também captura erro de duplicidade ao ativar um novo item
+            const apiMessage = err.response?.data?.message || "Erro ao adicionar item.";
+            return { success: false, message: `Erro: ${apiMessage}` };
         }
     };
 
     const handleDeactivateItem = async (item: CarouselResponseType): Promise<{ success: boolean, message: string }> => {
         setIsSaving(true);
-
-        const payload = {
-            isCarousel: false,
-            orderCarousel: undefined,
-            extraURL: undefined,
-        };
+        const payload = { isCarousel: false, orderCarousel: undefined, extraURL: undefined };
 
         try {
             if (item.collection_type === 'project') {
@@ -123,14 +119,13 @@ export function useCarouselForm() {
             }
 
             await fetchData();
-
             setIsSaving(false);
             return { success: true, message: `"${item.title}" removido dos destaques!` };
 
-        } catch (err) {
-            console.error(`Falha ao desativar ${item.title}:`, err);
+        } catch (err: any) {
             setIsSaving(false);
-            return { success: false, message: `Erro ao remover "${item.title}".` };
+            const apiMessage = err.response?.data?.message || `Erro ao remover "${item.title}".`;
+            return { success: false, message: `Erro: ${apiMessage}` };
         }
     };
     return {
