@@ -9,7 +9,7 @@ const api = axios.create({
     : 'http://localhost:3000',
 });
 
-// INTERCEPTADOR DE REQUISIÇÃO: Envia o token automaticamente
+// INTERCEPTADOR DE REQUISIÇÃO: Envia o token automaticamentes em cada requisição
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('authToken');
