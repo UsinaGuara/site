@@ -1,7 +1,7 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 const isProduction = import.meta.env.PROD;
-const redirectPath = isProduction ? '/site/#/login?reason=expired' : '/#/login?reason=expired';
+const redirectPath = isProduction ? '/#/login?reason=expired' : '/#/login?reason=expired';
 
 const api = axios.create({
   baseURL: import.meta.env.PROD 
