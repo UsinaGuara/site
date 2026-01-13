@@ -32,19 +32,6 @@ A interface foi construída priorizando performance, design responsivo e modular
 
 ---
 
-## ⚙️ Configuração do Ambiente
-
-Para rodar o frontend localmente e conectá-lo ao backend, crie um arquivo `.env` na raiz da pasta `frontend`:
-
-| Variável | Descrição | Exemplo Local |
-| :--- | :--- | :--- |
-| `VITE_API_URL` | Endereço da API Backend | `http://localhost:3000` |
-
-> [!TIP]
-> Em produção, essa variável deve apontar para a URL do Render (`https://site-v5hr.onrender.com`).
-
----
-
 ## 🚀 Executando o Frontend Localmente
 
 Siga os passos abaixo para rodar a interface web em ambiente de desenvolvimento.
@@ -53,7 +40,6 @@ Siga os passos abaixo para rodar a interface web em ambiente de desenvolvimento.
 
 - **Node.js** (v18 ou superior)
 - **Backend em execução** (local ou produção)
-- **Arquivo `.env` configurado**
 
 > [!IMPORTANT]
 > O frontend depende diretamente da API.  
@@ -72,14 +58,7 @@ cd frontend
 ```bash
 npm install
 ```
-3️⃣ **Configure o ambiente**
-
-Crie um arquivo `.env` na raiz do frontend com a variável:
-
-```env
-VITE_API_URL=http://localhost:3000
-```
-4️⃣ **Inicie o servidor de desenvolvimento**
+3️⃣ **Inicie o servidor de desenvolvimento**
 
 ```bash
 npm run dev
