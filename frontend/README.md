@@ -45,6 +45,55 @@ Para rodar o frontend localmente e conectá-lo ao backend, crie um arquivo `.env
 
 ---
 
+## 🚀 Executando o Frontend Localmente
+
+Siga os passos abaixo para rodar a interface web em ambiente de desenvolvimento.
+
+### Pré-requisitos
+
+- **Node.js** (v18 ou superior)
+- **Backend em execução** (local ou produção)
+- **Arquivo `.env` configurado**
+
+> [!IMPORTANT]
+> O frontend depende diretamente da API.  
+> Certifique-se de que o backend esteja rodando antes de iniciar a aplicação.
+
+---
+
+### ▶️ Passo a Passo
+
+1️⃣ **Acesse a pasta do frontend**
+```bash
+cd frontend
+```
+2️⃣ **Instale as dependências**
+
+```bash
+npm install
+```
+3️⃣ **Configure o ambiente**
+
+Crie um arquivo `.env` na raiz do frontend com a variável:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+4️⃣ **Inicie o servidor de desenvolvimento**
+
+```bash
+npm run dev
+```
+A aplicação estará disponível em:
+
+- **Frontend:** http://localhost:5173  
+  *(ou outra porta definida automaticamente pelo Vite)*
+
+> [!TIP]
+> Durante o desenvolvimento, o Vite oferece **Hot Module Replacement (HMR)**,  
+> aplicando alterações em tempo real sem recarregar a página.
+
+
 ## 🛠️ Scripts Disponíveis
 
 | Comando | Descrição |
@@ -75,7 +124,7 @@ A publicação deste frontend é **100% automatizada**. Não realizamos uploads 
 frontend/src/
 ├── assets/          # Imagens e ícones estáticos
 ├── components/      # Componentes Globais (Header, Footer, Inputs)
-├── features/        # 🧠 Núcleo do Sistema (Lógica de Negócio)
+├── features/        # Núcleo do Sistema (Lógica de Negócio)
 │   ├── auth/        # Login e Recuperação de senha
 │   ├── carousel/    # Gestão do Carrossel da Home
 │   ├── people/      # Gestão de Membros
