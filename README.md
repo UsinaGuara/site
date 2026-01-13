@@ -92,6 +92,13 @@ Para rodar o ambiente completo em desenvolvimento, é necessário configurar **b
 git clone https://github.com/UsinaGuara/site.git
 cd site
 ```
+#### 2️⃣ Backend
+Em um terminal, acesse a pasta e inicie o servidor (veja detalhes no [README do BackEnd](./backend/README.md).
+```bash
+cd backend
+npm install
+npm run dev
+```
 A API estará disponível em:
 
 - **API:** http://localhost:3000  
